@@ -114,8 +114,7 @@ def test_check_urls_with_multiple_urls(mocker: MockerFixture):
     assert results["https://success.com"] == "200 OK"
     assert results["https://timeout.com"] == "TIMEOUT"
     assert (
-        results["https://servererror.com"]
-        == "500 Server Error"
+        results["https://servererror.com"] == "500 Server Error"
     )
 
 
