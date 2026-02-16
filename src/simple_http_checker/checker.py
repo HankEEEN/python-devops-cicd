@@ -1,44 +1,61 @@
 import logging
-import requests
 from typing import Collection
+import requests
 
 logger = logging.getLogger(__name__)
 
-def check_urls(urls: Collection[str], timeout: int = 5) -> dict[str, str]:
+
+def check_urls(
+    urls: Collection[str],
+    timeout: int = 5,
+) -> dict[str, str]:
     """
     Checks a list of URLs and returns their status.
-    
+
     Args:
         urls: A list of URL strings to check.
         timeout: Maximum time in seconds to wait for each request. Defaults to 5.
-    
+
     Returns:
         A dictionary mapping each URL to its status string.
     """
-
-    logger.info(f"Starting check for {len(urls)} URLs with a timeout of {timeout}")
-    results = {}
+    logger.info(
+        "Starting check for %s URLs with a timeout of %s",
+        len(urls),
+        timeout,
+    )
+    results: dict[str, str] = {}
 
     for url in urls:
         status = "UNKNOWN"
 
-        try: 
+        try:
             logger.debug(f"Checking URL: {url}")
             response = requests.get(url, timeout=timeout)
 
             if response.ok:
                 status = f"{response.status_code} OK"
             else:
-                status = f"{response.status_code} {response.reason}"
+                status = (
+                    f"{response.status_code} "
+                    f"{response.reason}"
+                )
         except requests.exceptions.Timeout:
             status = "TIMEOUT"
-            logger.warning(f"Reequest to {url} timed out.")
+            logger.warning(f"Request to {url} timed out.")
         except requests.exceptions.ConnectionError:
             status = "CONNECTION_ERROR"
             logger.warning(f"Connection error for {url}.")
         except requests.exceptions.RequestException as e:
             status = f"REQUEST_ERROR: {type(e).__name__}"
-            logger.error(f"An unexpected request error occured for {url}: {e}", exc_info=True)  # exc_info means adding the traceback into the log file
+            logger.error(
+                (
+                    "An unexpected request error occurred "
+                    f"for {url}: {e}"
+                ),
+                exc_info=True,
+            )
+            # exc_info adds the traceback to the log output
 
         results[url] = status
         logger.debug(f"Checked {url:<40} -> {status}")
