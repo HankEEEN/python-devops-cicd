@@ -5,7 +5,6 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-
 def check_urls(
     urls: Collection[str],
     timeout: int = 5,
