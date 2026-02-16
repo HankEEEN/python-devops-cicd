@@ -6,7 +6,7 @@ This repo contains the code for the CI/CD section of my Python for DevOps course
 [x] Add a simple GitHub Actions workflow and make sure it runs until completion
 [x] Add linting (ruff) and format checks (black)
 [x] Add typing (mypy) and security checks (bandit)
-[] Add test automation
+[x] Add test automation
 [] Build Python project
 [] Publish the project to both TestPyPi and PyPi when a new tag is pushed
 
